@@ -2506,6 +2506,7 @@ function AppWorkspace({
           <button className="app-brand" onClick={() => { setSidebar(false); navigate("home") }} aria-label="FAULTLINE home">
             <Logo />
           </button>
+          <button className="sidebar-close" onClick={() => setSidebar(false)} aria-label="Close navigation"><Icon name="close" size={18} /></button>
         </div>
         <nav aria-label="Application navigation">
           <span>Workbench</span>
@@ -2528,7 +2529,7 @@ function AppWorkspace({
       <div className="workspace-main">
         <header className="app-topbar app-topbar-minimal">
           <button className="sidebar-toggle" onClick={() => setSidebar((open) => !open)} aria-label={sidebar ? "Close navigation" : "Open navigation"} aria-expanded={sidebar}>
-            <Icon name={sidebar ? "close" : "menu"} size={19} />
+            <Icon name="menu" size={19} />
           </button>
           <button className="app-brand topbar-brand" onClick={() => navigate("home")} aria-label="FAULTLINE home">
             <Logo />
