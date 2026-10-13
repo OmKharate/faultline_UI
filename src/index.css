@@ -1350,7 +1350,7 @@ small,
   .hero.page-shell { grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 32px; width: min(100% - 44px, 1240px); }
   .hero .hero-copy h1 { font-size: clamp(52px, 6vw, 72px) !important; }
   .hero-visual-wrap { padding-left: 10px; }
-  .hero-visual-wrap::before { inset-left: 25px; }
+  .hero-visual-wrap::before { left: 25px; }
   .visual-repo { padding: 12px; }
   .visual-evidence-row { grid-template-columns: 18px 22px minmax(0,1fr); }
   .evidence-status { display: none; }
