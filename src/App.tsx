@@ -186,55 +186,71 @@ function Eyebrow({ children }: { children: ReactNode }) {
 
 function InvestigationVisual() {
   return (
-    <div
-      className="investigation-visual"
-      aria-label="Illustrative cross-repository investigation"
-    >
+    <div className="investigation-visual" aria-label="Illustrative dependency investigation preview">
       <div className="visual-topline">
-        <span>Illustrative investigation</span>
-        <span className="mode-badge">FIXTURE</span>
-      </div>
-      <div className="repo-pair">
-        <div className="repo-card">
-          <span className="micro-label">Reference / producer</span>
-          <strong>producer-service</strong>
-          <code>a13f9c2</code>
-          <small>Reference world</small>
+        <div className="visual-title-lockup">
+          <span className="visual-live-indicator" />
+          <span>Investigation preview</span>
         </div>
-        <div className="contract-connector">
-          <span className="connector-line" />
-          <img src="/faultline-logo.png" alt="" />
-          <span className="connector-line" />
-          <small>relationship</small>
+        <span className="mode-badge">EXAMPLE DATA</span>
+      </div>
+
+      <div className="visual-context-row">
+        <span>INVESTIGATION / 041</span>
+        <span>PYTHON ECOSYSTEM</span>
+      </div>
+
+      <div className="visual-relation-map">
+        <div className="visual-repo producer">
+          <div className="visual-repo-top"><span className="repo-glyph">P</span><span>PRODUCER</span></div>
+          <strong>shared-contracts</strong>
+          <code>ref · a13f9c2</code>
+          <div className="repo-meta"><span className="mini-state state-pinned" /> Source pinned</div>
         </div>
-        <div className="repo-card">
-          <span className="micro-label">Consumer</span>
-          <strong>consumer-app</strong>
-          <code>d82b641</code>
-          <small>Consumer world</small>
+
+        <div className="visual-edge">
+          <span className="edge-line"><i /></span>
+          <span className="edge-label">CONTRACT</span>
+          <span className="edge-line"><i /></span>
+        </div>
+
+        <div className="visual-repo consumer">
+          <div className="visual-repo-top"><span className="repo-glyph">C</span><span>CONSUMER</span></div>
+          <strong>billing-api</strong>
+          <code>ref · d82b641</code>
+          <div className="repo-meta"><span className="mini-state state-review" /> Review required</div>
         </div>
       </div>
-      <div className="investigation-path">
-        {[
-          ["01", "Environment delta", "Candidate"],
-          ["02", "Behavioral evidence", "Tested"],
-          ["03", "Scoped verdict", "Inconclusive"],
-        ].map(([number, title, status], index) => (
-          <div className="path-stage" key={title}>
-            <span className="stage-number">{number}</span>
-            <div>
-              <strong>{title}</strong>
-              <small>{status}</small>
-            </div>
-            {index < 2 && <Icon name="arrow" size={16} />}
-          </div>
-        ))}
+
+      <div className="visual-divider"><span>Evidence trail</span><span>03 RECORDS</span></div>
+      <div className="visual-evidence-list">
+        <div className="visual-evidence-row">
+          <span className="evidence-index">01</span>
+          <span className="evidence-symbol symbol-source">↗</span>
+          <span className="evidence-copy"><strong>Source revisions pinned</strong><small>Immutable repository inputs</small></span>
+          <span className="evidence-status status-complete">RECORDED</span>
+        </div>
+        <div className="visual-evidence-row">
+          <span className="evidence-index">02</span>
+          <span className="evidence-symbol symbol-delta">Δ</span>
+          <span className="evidence-copy"><strong>Environment delta identified</strong><small>Candidate difference · not proof</small></span>
+          <span className="evidence-status status-candidate">CANDIDATE</span>
+        </div>
+        <div className="visual-evidence-row">
+          <span className="evidence-index">03</span>
+          <span className="evidence-symbol symbol-verdict">!</span>
+          <span className="evidence-copy"><strong>Behavioral witness</strong><small>Fresh runs still required</small></span>
+          <span className="evidence-status status-pending">PENDING</span>
+        </div>
       </div>
-      <p className="visual-note">Example data · no live result implied</p>
+
+      <div className="visual-footnote">
+        <span>Illustrative data only</span>
+        <span><span className="footnote-dot" /> No live analysis implied</span>
+      </div>
     </div>
   )
 }
-
 const values = [
   [
     "Cross-repository",
@@ -338,37 +354,41 @@ function HomePage({ onStart }: { onStart: () => void }) {
     <main>
       <section className="hero page-shell">
         <div className="hero-copy">
-          <Eyebrow>Cross-repository dependency intelligence</Eyebrow>
+          <div className="hero-kicker"><span className="kicker-rule" /> ENGINEERING INTELLIGENCE <span className="kicker-index">/ 07</span></div>
           <h1>
             A dependency changed.
             <br />
-            <em>Find out what actually broke.</em>
+            <em>Trace the break.</em>
           </h1>
           <p className="hero-lede">
-            When a dependency changes, figuring out whether it caused a
-            downstream failure can mean hours of comparing repositories,
-            environments, and test results.
+            Compatibility failures rarely explain themselves.
           </p>
-          <p>
+          <p className="hero-description">
             FAULTLINE investigates dependency drift across producer and consumer
-            repositories, connects relevant differences to observed behavior,
-            and helps you distinguish a suspected issue from a reproducible,
-            evidence-backed finding.
+            repositories—connecting pinned source revisions, environment
+            differences, and behavioral evidence to a conclusion you can inspect.
           </p>
           <div className="button-row">
             <Button onClick={onStart}>Start an investigation</Button>
             <Button secondary onClick={() => navigate("how")}>
-              See how FAULTLINE works
+              Explore the method
             </Button>
           </div>
-          <p className="trust-line">
-            <span />
-            <span>Pinned revisions</span>
-            <span>Comparable environments</span>
-            <span>Inspectable evidence</span>
-          </p>
+          <div className="hero-proofline">
+            <span className="proof-mark"><Icon name="check" size={13} /></span>
+            <span>Built around evidence, not assumptions</span>
+          </div>
+          <div className="hero-meta">
+            <span><b>01</b> PIN THE SOURCE</span>
+            <span><b>02</b> TEST THE BEHAVIOR</span>
+            <span><b>03</b> SCOPE THE VERDICT</span>
+          </div>
         </div>
-        <InvestigationVisual />
+        <div className="hero-visual-wrap">
+          <div className="hero-visual-index"><span>FIG. 01</span><span>THE INVESTIGATION MODEL</span></div>
+          <InvestigationVisual />
+          <div className="hero-visual-caption"><span>Every conclusion has a trail.</span><span>SCROLL TO EXPLORE ↓</span></div>
+        </div>
       </section>
 
       <section className="value-strip page-shell" aria-label="Product values">
@@ -2655,7 +2675,40 @@ function StartModal({
   )
 }
 
+function LoadingScreen({ onComplete }: { onComplete: () => void }) {
+  return (
+    <div className="faultline-loader" role="status" aria-live="polite" aria-label="Loading FAULTLINE">
+      <div className="loader-grain" />
+      <div className="loader-content">
+        <div className="loader-brand">
+          <img src="/faultline-logo.png" alt="" />
+          <span>FAULTLINE</span>
+        </div>
+        <div className="loader-centerpiece" aria-hidden="true">
+          <div className="loader-orbit orbit-one" />
+          <div className="loader-orbit orbit-two" />
+          <div className="loader-core"><img src="/faultline-logo.png" alt="" /></div>
+          <span className="loader-node node-one" />
+          <span className="loader-node node-two" />
+          <span className="loader-node node-three" />
+        </div>
+        <p className="loader-eyebrow">CROSS-REPOSITORY INTELLIGENCE</p>
+        <h1>Follow the evidence.<br /><em>Find the fault line.</em></h1>
+        <div className="loader-bottom">
+          <span>INITIALIZING INTERFACE</span>
+          <span className="loader-sequence"><i /><i /><i /></span>
+          <span>PS / 07</span>
+        </div>
+        <div className="loader-progress-track"><span /></div>
+      </div>
+      <span className="loader-corner loader-corner-left">FAULTLINE SYSTEMS<br />EVIDENCE-FIRST ANALYSIS</span>
+      <span className="loader-corner loader-corner-right">BUILD 01<br />PREVIEW ENVIRONMENT</span>
+    </div>
+  )
+}
+
 export default function App() {
+  const [booting, setBooting] = useState(true)
   const getPage = (): Page => {
     const hash = window.location.hash.replace("#", "")
     const pages: Page[] = [
@@ -2670,6 +2723,12 @@ export default function App() {
   }
   const [page, setPage] = useState<Page>(getPage)
   const [modal, setModal] = useState(false)
+  useEffect(() => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    const delay = reducedMotion ? 180 : 1250
+    const timer = window.setTimeout(() => setBooting(false), delay)
+    return () => window.clearTimeout(timer)
+  }, [])
   const [theme, setTheme] = useState<"light" | "dark">(() => {
     const stored = localStorage.getItem("faultline-theme")
     if (stored === "light" || stored === "dark") return stored
@@ -2702,6 +2761,10 @@ export default function App() {
   const openApp = () => {
     setModal(false)
     navigate("app")
+  }
+
+  if (booting) {
+    return <LoadingScreen onComplete={() => setBooting(false)} />
   }
 
   if (page === "app") {
