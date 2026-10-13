@@ -1787,3 +1787,112 @@ html, body, #root { max-width: 100%; }
   .overview-chart-grid .outcome-donut { width: 106px !important; height: 106px !important; min-width: 106px !important; flex-basis: 106px !important; }
   .overview-chart-grid .stage-chart-row { grid-template-columns: minmax(95px, .9fr) minmax(30px, 1fr) 14px !important; gap: 8px !important; }
 }
+
+
+/* FAULTLINE workbench typography system.
+   Compact application UI; editorial serif is retained for headings, not oversized everywhere. */
+.workspace,
+.workspace .workspace-content {
+  font-size: 13px !important;
+  line-height: 1.5;
+}
+.workspace .workspace-content h1,
+.workspace .workspace-content .app-page-heading h1 {
+  font-size: clamp(27px, 2.2vw, 32px) !important;
+  line-height: 1.15 !important;
+  letter-spacing: -.035em !important;
+  font-weight: 500 !important;
+}
+.workspace .workspace-content h2 { font-size: 21px !important; line-height: 1.25 !important; }
+.workspace .workspace-content h3,
+.workspace .workspace-content .panel-heading h3 { font-size: 15px !important; line-height: 1.35 !important; }
+.workspace .workspace-content p,
+.workspace .workspace-content li,
+.workspace .workspace-content .app-page-heading p,
+.workspace .workspace-content .panel-note,
+.workspace .workspace-content .empty-inline p,
+.workspace .workspace-content .verdict-summary p,
+.workspace .workspace-content .finding-summary-grid p,
+.workspace .workspace-content .setting-row p {
+  font-size: 12px !important;
+  line-height: 1.55 !important;
+}
+.workspace .workspace-content label,
+.workspace .workspace-content .micro-label,
+.workspace .workspace-content .eyebrow,
+.workspace .workspace-content .panel-heading > div > span,
+.workspace .workspace-content .panel-heading span,
+.workspace .workspace-content .app-form label span,
+.workspace .workspace-content .data-table th,
+.workspace .workspace-content .key-values dt,
+.workspace .workspace-content .manifest-grid dt {
+  font-size: 10px !important;
+  line-height: 1.45 !important;
+  letter-spacing: .075em;
+}
+.workspace .workspace-content input,
+.workspace .workspace-content select,
+.workspace .workspace-content textarea,
+.workspace .workspace-content code,
+.workspace .workspace-content kbd,
+.workspace .workspace-content .data-table td,
+.workspace .workspace-content .key-values dd,
+.workspace .workspace-content .manifest-grid dd,
+.workspace .workspace-content .app-form input,
+.workspace .workspace-content .filter-bar input,
+.workspace .workspace-content .dependency-search input {
+  font-size: 12px !important;
+  line-height: 1.5 !important;
+}
+.workspace .workspace-content button,
+.workspace .workspace-content .app-action,
+.workspace .workspace-content .stepper button,
+.workspace .workspace-content .filter-bar button,
+.workspace .workspace-content .app-tabs button,
+.workspace .workspace-content .theme-choice {
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+}
+.workspace .workspace-content small,
+.workspace .workspace-content .app-status,
+.workspace .workspace-content .status,
+.workspace .workspace-content .footer-note,
+.workspace .workspace-content .visual-note,
+.workspace .workspace-content .stage-number,
+.workspace .workspace-content .panel-heading span,
+.workspace .workspace-content .metric-strip small,
+.workspace .workspace-content .funnel button small,
+.workspace .workspace-content .chart-legend > small,
+.workspace .workspace-content .stage-chart p {
+  font-size: 10px !important;
+  line-height: 1.45 !important;
+}
+.workspace .workspace-content .metric-strip span { font-size: 11px !important; line-height: 1.4 !important; }
+.workspace .workspace-content .metric-strip strong { font-size: 22px !important; line-height: 1.2 !important; }
+.workspace .workspace-content .funnel button strong,
+.workspace .workspace-content .attention-list strong,
+.workspace .workspace-content .witness-rule strong,
+.workspace .workspace-content .repo-card strong,
+.workspace .workspace-content .setting-row strong { font-size: 13px !important; line-height: 1.4 !important; }
+.workspace .workspace-content .dependency-summary strong { font-size: 18px !important; }
+.workspace .workspace-content .dependency-inspector h3 { font-size: 16px !important; }
+.workspace .workspace-content .app-page-heading { margin-bottom: 24px; }
+.workspace .workspace-content .work-panel .panel-heading { padding: 13px 16px; }
+.workspace .workspace-content .metric-strip > div { padding: 18px 18px; }
+.workspace .workspace-content .work-grid { gap: 14px; margin-bottom: 14px; }
+.workspace .workspace-content .work-panel { margin-bottom: 14px; }
+.workspace .workspace-content .overview-chart-grid { gap: 14px !important; }
+.workspace .workspace-content .outcome-donut-center strong { font-size: 22px !important; }
+.workspace .workspace-content .chart-legend > div { font-size: 11px !important; }
+.workspace .workspace-content .stage-chart-row > span { font-size: 11px !important; }
+.workspace .workspace-content .data-table th,
+.workspace .workspace-content .data-table td { padding: 10px 12px; }
+
+@media (max-width: 760px) {
+  .workspace .workspace-content h1,
+  .workspace .workspace-content .app-page-heading h1 { font-size: 27px !important; }
+  .workspace .workspace-content h2 { font-size: 20px !important; }
+  .workspace .workspace-content h3,
+  .workspace .workspace-content .panel-heading h3 { font-size: 15px !important; }
+  .workspace .workspace-content .app-page-heading { margin-bottom: 20px; }
+}
