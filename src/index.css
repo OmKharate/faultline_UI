@@ -1918,3 +1918,66 @@ html, body, #root { max-width: 100%; }
 @media (max-width: 760px) {
   .app-topbar-minimal { min-height: 48px !important; height: 48px; padding: 0 14px !important; }
 }
+
+
+/* Desktop: persistent sidebar participates in layout instead of overlaying content. */
+@media (min-width: 761px) {
+  .workspace {
+    display: grid !important;
+    grid-template-columns: 238px minmax(0, 1fr) !important;
+    align-items: start;
+    min-height: 100vh;
+    width: 100%;
+  }
+  .workspace > .app-sidebar {
+    position: sticky !important;
+    top: 0 !important;
+    left: auto !important;
+    inset: auto !important;
+    width: 238px !important;
+    height: 100vh !important;
+    min-height: 100vh;
+    transform: none !important;
+    visibility: visible !important;
+    box-shadow: none !important;
+    z-index: 10 !important;
+    overflow: hidden;
+  }
+  .workspace > .app-sidebar.open { transform: none !important; }
+  .workspace > .app-sidebar .sidebar-close { display: none !important; }
+  .workspace > .sidebar-backdrop { display: none !important; }
+  .workspace .workspace-main {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+  .workspace .app-topbar-minimal { position: sticky; top: 0; }
+  .workspace .app-topbar-minimal .sidebar-toggle { display: none !important; }
+  .workspace .workspace-content {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding-left: clamp(20px, 2.2vw, 34px);
+    padding-right: clamp(20px, 2.2vw, 34px);
+  }
+}
+/* On narrow screens the same navigation becomes a drawer to preserve usable content width. */
+@media (max-width: 760px) {
+  .workspace { display: block !important; }
+  .workspace > .app-sidebar {
+    position: fixed !important;
+    inset: 0 auto 0 0 !important;
+    width: min(280px, 86vw) !important;
+    height: 100dvh !important;
+    transform: translateX(-105%) !important;
+    visibility: hidden !important;
+    z-index: 101 !important;
+  }
+  .workspace > .app-sidebar.open {
+    transform: translateX(0) !important;
+    visibility: visible !important;
+  }
+  .workspace > .app-sidebar .sidebar-close { display: inline-flex !important; }
+  .workspace > .sidebar-backdrop { display: block; }
+  .workspace .app-topbar-minimal .sidebar-toggle { display: inline-flex !important; }
+}
