@@ -21,7 +21,7 @@
   --font-serif: var(--font-interface);
   --font-mono: var(--font-interface);
   --default-font-family: var(--font-interface);
-  --default-mono-font-family: var(--font-interface);
+  --default-mono-font-family: var(--font-mono);
 }
 
 * { box-sizing: border-box; }
@@ -1186,6 +1186,23 @@ code { font-family: var(--font-mono) !important; }
 @media (prefers-reduced-motion: reduce) {
   .faultline-loader { animation-duration: .01ms !important; animation-delay: 0ms !important; }
   .loader-orbit, .loader-node, .loader-sequence i, .loader-progress-track span, .edge-line i {
+    animation: none !important;
+  }
+}
+
+.hero-kicker { animation: fl-enter-up 560ms 70ms var(--motion-ease) both; }
+.hero-proofline { animation: fl-enter-up 650ms 320ms var(--motion-ease) both; }
+.hero-meta { animation: fl-enter-up 650ms 390ms var(--motion-ease) both; }
+.hero-visual-index { animation: fl-enter-up 600ms 130ms var(--motion-ease) both; }
+.hero-visual-caption { animation: fl-enter-up 600ms 520ms var(--motion-ease) both; }
+.visual-repo.producer { animation: fl-enter-up 650ms 350ms var(--motion-ease) both; }
+.visual-repo.consumer { animation: fl-enter-up 650ms 470ms var(--motion-ease) both; }
+.visual-evidence-row:nth-child(1) { animation: fl-enter-up 550ms 520ms var(--motion-ease) both; }
+.visual-evidence-row:nth-child(2) { animation: fl-enter-up 550ms 620ms var(--motion-ease) both; }
+.visual-evidence-row:nth-child(3) { animation: fl-enter-up 550ms 720ms var(--motion-ease) both; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-kicker, .hero-proofline, .hero-meta, .hero-visual-index, .hero-visual-caption,
+  .visual-repo.producer, .visual-repo.consumer, .visual-evidence-row {
     animation: none !important;
   }
 }
