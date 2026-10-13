@@ -64,7 +64,7 @@ function Icon({
 function Logo({ compact = false }: { compact?: boolean }) {
   return (
     <span className="logo-lockup">
-      <img src="/faultline-logo.png" alt="" className="logo-mark" />
+      <img src="/faultline-logo.svg" alt="" className="logo-mark" />
       {!compact && <span className="logo-type">FAULTLINE</span>}
     </span>
   )
@@ -506,7 +506,7 @@ function HomePage({ onStart }: { onStart: () => void }) {
             </ul>
           </article>
           <div className="comparison-divider">
-            <img src="/faultline-logo.png" alt="" />
+            <img src="/faultline-logo.svg" alt="" />
           </div>
           <article className="finding-panel">
             <span className="status status-copper">
@@ -1274,7 +1274,7 @@ function AccessPage({ onOpen }: { onOpen: () => void }) {
         <Logo />
         <div className="access-contract">
           <span />
-          <img src="/faultline-logo.png" alt="" />
+          <img src="/faultline-logo.svg" alt="" />
           <span />
         </div>
         <p>WITNESSES, NOT WARNINGS.</p>
@@ -2560,7 +2560,7 @@ function CtaSection({ onStart }: { onStart: () => void }) {
   return (
     <section className="final-cta">
       <div className="page-shell">
-        <img src="/faultline-logo.png" alt="" />
+        <img src="/faultline-logo.svg" alt="" />
         <div>
           <Eyebrow>Begin with the evidence</Eyebrow>
           <h2>
@@ -2681,13 +2681,13 @@ function LoadingScreen({ leaving }: { leaving: boolean }) {
       <div className="loader-grain" />
       <div className="loader-content">
         <div className="loader-brand">
-          <img src="/faultline-logo.png" alt="" />
+          <img src="/faultline-logo.svg" alt="" />
           <span>FAULTLINE</span>
         </div>
         <div className="loader-centerpiece" aria-hidden="true">
           <div className="loader-orbit orbit-one" />
           <div className="loader-orbit orbit-two" />
-          <div className="loader-core"><img src="/faultline-logo.png" alt="" /></div>
+          <div className="loader-core"><img src="/faultline-logo.svg" alt="" /></div>
           <span className="loader-node node-one" />
           <span className="loader-node node-two" />
           <span className="loader-node node-three" />
