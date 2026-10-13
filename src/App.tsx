@@ -2018,80 +2018,80 @@ function RelationshipsView({ go }: { go: (view: AppView) => void }) {
 }
 
 function InventoryView({ go }: { go: (view: AppView) => void }) {
+  const [query, setQuery] = useState("")
+  const [edgeMode, setEdgeMode] = useState<"all" | "observed" | "candidate">("all")
+  const [selected, setSelected] = useState("contracts")
+  const nodes = [
+    { id: "producer", type: "Repository", title: "producer-service", detail: "ref · a13f9c2", status: "Source pinned", tone: "repo", x: "5%", y: "18%" },
+    { id: "manifest", type: "Manifest", title: "pyproject.toml", detail: "dependency declaration", status: "Inventory record", tone: "manifest", x: "31%", y: "18%" },
+    { id: "contracts", type: "Package", title: "@example/contracts", detail: "resolved · 2.2.0", status: "Candidate relationship", tone: "package", x: "57%", y: "18%" },
+    { id: "billing", type: "Repository", title: "billing-api", detail: "ref · d82b641", status: "Review required", tone: "consumer", x: "79%", y: "5%" },
+    { id: "reporting", type: "Repository", title: "reporting-service", detail: "ref · 7f41b9a", status: "Relationship unverified", tone: "consumer", x: "79%", y: "37%" },
+    { id: "lockfile", type: "Manifest", title: "uv.lock", detail: "resolved environment", status: "Resolution evidence", tone: "manifest", x: "31%", y: "60%" },
+    { id: "runtime", type: "Package", title: "pydantic", detail: "resolved · 2.x", status: "Environment dependency", tone: "package", x: "57%", y: "60%" },
+  ]
+  const visibleNodes = nodes.filter((node) => `${node.title} ${node.type} ${node.detail}`.toLowerCase().includes(query.toLowerCase()))
+  const active = nodes.find((node) => node.id === selected) ?? nodes[0]
+  const edges = [
+    { id: "e1", d: "M 220 98 C 260 98 265 98 305 98", label: "contains", x: 262, y: 85, kind: "observed" },
+    { id: "e2", d: "M 470 98 C 510 98 515 98 555 98", label: "declares", x: 512, y: 85, kind: "candidate" },
+    { id: "e3", d: "M 720 98 C 770 98 775 55 825 55", label: "consumes", x: 774, y: 65, kind: "candidate" },
+    { id: "e4", d: "M 720 98 C 770 98 775 155 825 155", label: "consumes", x: 774, y: 137, kind: "candidate" },
+    { id: "e5", d: "M 388 126 C 388 190 388 205 388 270", label: "resolved in", x: 420, y: 204, kind: "observed" },
+    { id: "e6", d: "M 470 298 C 510 298 515 298 555 298", label: "includes", x: 512, y: 285, kind: "observed" },
+  ]
   return (
-    <>
-      <div className="filter-bar">
-        <label>
-          <Icon name="search" />
-          <input placeholder="Search nodes…" />
-        </label>
-        <button>
-          Filter ecosystem
-          <Icon name="chevron" size={14} />
-        </button>
-        <button>
-          Evidence level
-          <Icon name="chevron" size={14} />
-        </button>
+    <div className="dependency-page">
+      <div className="dependency-toolbar">
+        <label className="dependency-search"><Icon name="search" size={17} /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search repositories, packages, manifests…" /></label>
+        <div className="dependency-toolbar-actions">
+          <select aria-label="Edge filter" value={edgeMode} onChange={(event) => setEdgeMode(event.target.value as "all" | "observed" | "candidate")}>
+            <option value="all">All relationships</option><option value="observed">Observed only</option><option value="candidate">Candidate only</option>
+          </select>
+          <AppAction quiet onClick={() => { setQuery(""); setEdgeMode("all"); setSelected("contracts") }}>Reset view</AppAction>
+        </div>
       </div>
-      <Panel title="Inventory graph" meta="Illustrative bounded subset">
-        <div className="inventory-graph">
-          <button className="graph-node repo" onClick={() => go("repository")}>
-            <span>Repository</span>
-            <strong>producer-service</strong>
-            <code>a13f9c2</code>
-          </button>
-          <span className="graph-edge confirmed">declares</span>
-          <button className="graph-node manifest">
-            <span>Manifest</span>
-            <strong>package.json</strong>
-            <code>parse: status to confirm</code>
-          </button>
-          <span className="graph-edge candidate">candidate edge</span>
-          <button className="graph-node package">
-            <span>Package</span>
-            <strong>@example/contracts</strong>
-            <code>2.2.0</code>
-          </button>
-          <span className="graph-edge candidate">suspected</span>
-          <button
-            className="graph-node repo"
-            onClick={() => go("relationships")}
-          >
-            <span>Repository</span>
-            <strong>consumer-app</strong>
-            <code>d82b641</code>
-          </button>
-        </div>
-        <div className="graph-legend">
-          <span>
-            <i className="solid-line" />
-            Observed edge
-          </span>
-          <span>
-            <i className="dash-line" />
-            Candidate edge
-          </span>
-          <span>Graph proximity does not imply causality.</span>
-        </div>
+      <div className="dependency-summary">
+        <div><span>VISIBLE NODES</span><strong>{visibleNodes.length.toString().padStart(2, "0")}</strong></div>
+        <div><span>OBSERVED EDGES</span><strong>03</strong></div>
+        <div><span>CANDIDATE EDGES</span><strong>03</strong></div>
+        <div><span>DATA SCOPE</span><strong>Illustrative</strong></div>
+      </div>
+      <div className="dependency-layout">
+        <Panel title="Dependency graph" meta="Illustrative inventory · not live repository data">
+          <div className="dependency-canvas">
+            <div className="dependency-lane lane-source">SOURCE & DECLARATION</div>
+            <div className="dependency-lane lane-consumer">CONSUMER REPOSITORIES</div>
+            <div className="dependency-lane lane-world">RESOLVED ENVIRONMENT</div>
+            <svg className="dependency-edges" viewBox="0 0 1000 360" preserveAspectRatio="none" aria-hidden="true">
+              {edges.filter((edge) => edgeMode === "all" || edge.kind === edgeMode).map((edge) => <g key={edge.id} className={`dependency-edge ${edge.kind}`}><path d={edge.d} /><text x={edge.x} y={edge.y}>{edge.label}</text></g>)}
+            </svg>
+            {nodes.map((node) => {
+              const visible = visibleNodes.some((item) => item.id === node.id)
+              return <button key={node.id} className={`dependency-node ${node.tone} ${selected === node.id ? "selected" : ""} ${visible ? "" : "filtered-out"}`} style={{ left: node.x, top: node.y }} onClick={() => setSelected(node.id)} aria-pressed={selected === node.id}>
+                <span className="dependency-node-type">{node.type}</span><strong>{node.title}</strong><code>{node.detail}</code><small><i />{node.status}</small>
+              </button>
+            })}
+            <div className="dependency-canvas-footer"><span><i className="edge-key observed-key" />Observed relationship</span><span><i className="edge-key candidate-key" />Candidate relationship</span><span>Connection ≠ confirmed breakage</span></div>
+          </div>
+        </Panel>
+        <aside className="dependency-inspector">
+          <div className="dependency-inspector-head"><span>SELECTED NODE</span><span className="inspector-index">NODE / {String(nodes.findIndex((node) => node.id === active.id) + 1).padStart(2, "0")}</span></div>
+          <span className={`dependency-type-chip ${active.tone}`}>{active.type}</span>
+          <h3>{active.title}</h3>
+          <code>{active.detail}</code>
+          <div className="inspector-divider" />
+          <span className="inspector-label">Inventory state</span>
+          <p>{active.status}</p>
+          <span className="inspector-label">Interpretation</span>
+          <p>This is illustrative graph data. Relationship and compatibility claims require repository evidence and applicable checks.</p>
+          <div className="inspector-actions"><AppAction quiet onClick={() => go(active.type === "Repository" ? "repository" : "relationships")}>Inspect related records <Icon name="arrow" size={15} /></AppAction></div>
+        </aside>
+      </div>
+      <Panel title="Graph inventory" meta="Keyboard-accessible node list">
+        <DataTable columns={["Node", "Type", "State", "Reference"]} rows={nodes.map((node) => [node.title, node.type, node.status, node.detail])} />
       </Panel>
-      <Panel title="Accessible graph alternative" meta="Keyboard navigable">
-        <DataTable
-          columns={["Node", "Type", "State", "Related evidence"]}
-          rows={[
-            ["producer-service", "Repository", "Pinned", "Source revision"],
-            ["package.json", "Manifest", "Status to confirm", "Inventory"],
-            [
-              "@example/contracts",
-              "Package instance",
-              "Candidate",
-              "Relationship signals",
-            ],
-            ["consumer-app", "Repository", "Pinned", "Source revision"],
-          ]}
-        />
-      </Panel>
-    </>
+    </div>
   )
 }
 
