@@ -2531,6 +2531,9 @@ function AppWorkspace({
           <button className="sidebar-toggle" onClick={() => setSidebar((open) => !open)} aria-label={sidebar ? "Close navigation" : "Open navigation"} aria-expanded={sidebar}>
             <Icon name={sidebar ? "close" : "menu"} size={19} />
           </button>
+          <button className="app-brand topbar-brand" onClick={() => navigate("home")} aria-label="FAULTLINE home">
+            <Logo />
+          </button>
           <div className="topbar-actions">
             <ThemeToggle theme={theme} onToggle={onTheme} />
             <button className="exit-app" onClick={() => navigate("home")}>Exit preview</button>
