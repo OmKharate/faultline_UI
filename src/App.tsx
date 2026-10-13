@@ -1152,18 +1152,18 @@ function DocsPage() {
   )
 }
 
-const appNavigation: { id: AppView; label: string; group: "Investigate" | "Explore" | "Manage" }[] = [
-  { id: "overview", label: "Overview", group: "Investigate" },
-  { id: "new", label: "New analysis", group: "Investigate" },
-  { id: "findings", label: "Findings", group: "Investigate" },
-  { id: "worlds", label: "World matrix", group: "Investigate" },
-  { id: "relationships", label: "Relationships", group: "Explore" },
-  { id: "inventory", label: "Inventory graph", group: "Explore" },
-  { id: "evidence", label: "Evidence", group: "Explore" },
-  { id: "jobs", label: "Jobs", group: "Manage" },
-  { id: "repository", label: "Repositories", group: "Manage" },
-  { id: "coverage", label: "Capabilities", group: "Manage" },
-  { id: "settings", label: "Settings", group: "Manage" },
+const appNavigation: { id: AppView; label: string }[] = [
+  { id: "overview", label: "Overview" },
+  { id: "new", label: "New analysis" },
+  { id: "findings", label: "Findings" },
+  { id: "worlds", label: "World matrix" },
+  { id: "relationships", label: "Relationships" },
+  { id: "inventory", label: "Inventory graph" },
+  { id: "evidence", label: "Evidence" },
+  { id: "jobs", label: "Jobs" },
+  { id: "repository", label: "Repositories" },
+  { id: "coverage", label: "Capabilities & coverage" },
+  { id: "settings", label: "Settings" },
 ]
 function Status({
   children,
@@ -2463,25 +2463,47 @@ function AppWorkspace({
   onTheme: () => void
 }) {
   const [view, setView] = useState<AppView>("overview")
-  const [navOpen, setNavOpen] = useState(false)
-  const [navQuery, setNavQuery] = useState("")
+  const [sidebar, setSidebar] = useState(false)
   const go = (next: AppView) => {
     setView(next)
-    setNavOpen(false)
-    setNavQuery("")
+    setSidebar(false)
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
   const [title, subtitle] = viewMeta[view]
-  const groups = ["Investigate", "Explore", "Manage"] as const
-  const filteredNavigation = appNavigation.filter((item) =>
-    item.label.toLowerCase().includes(navQuery.toLowerCase()) ||
-    item.group.toLowerCase().includes(navQuery.toLowerCase())
-  )
   return (
     <main className="workspace">
+      {sidebar && <button className="sidebar-backdrop" aria-label="Close navigation" onClick={() => setSidebar(false)} />}
+      <aside className={sidebar ? "app-sidebar open" : "app-sidebar"} aria-label="Workspace sidebar">
+        <div className="sidebar-brand-row">
+          <button className="app-brand" onClick={() => { setSidebar(false); navigate("home") }} aria-label="FAULTLINE home">
+            <Logo />
+          </button>
+          <button className="sidebar-close" onClick={() => setSidebar(false)} aria-label="Close navigation"><Icon name="close" size={18} /></button>
+        </div>
+        <nav aria-label="Application navigation">
+          <span>Workbench</span>
+          {appNavigation.map((item) => (
+            <button
+              className={view === item.id ? "active" : ""}
+              onClick={() => go(item.id)}
+              key={item.id}
+            >
+              <Icon name="grid" size={15} />
+              {item.label}
+            </button>
+          ))}
+        </nav>
+        <div className="sidebar-foot">
+          <Status>FIXTURE</Status>
+          <small>No live account session</small>
+        </div>
+      </aside>
       <div className="workspace-main">
         <header className="app-topbar">
-          <button className="app-brand" onClick={() => navigate("home")} aria-label="FAULTLINE home">
+          <button className="sidebar-toggle" onClick={() => setSidebar((open) => !open)} aria-label={sidebar ? "Close navigation" : "Open navigation"} aria-expanded={sidebar}>
+            <Icon name={sidebar ? "close" : "menu"} size={19} />
+          </button>
+          <button className="app-brand topbar-brand" onClick={() => navigate("home")} aria-label="FAULTLINE home">
             <Logo />
           </button>
           <div className="topbar-context">
@@ -2491,104 +2513,11 @@ function AppWorkspace({
           <div className="topbar-actions">
             <Status>FIXTURE</Status>
             <ThemeToggle theme={theme} onToggle={onTheme} />
-            <button className="exit-app" onClick={() => navigate("home")}>
-              Exit preview
-            </button>
+            <button className="exit-app" onClick={() => navigate("home")}>Exit preview</button>
           </div>
         </header>
-        <nav className="workspace-nav" aria-label="Application navigation">
-          <div className="workspace-nav-groups">
-            {groups.map((group) => {
-              const items = appNavigation.filter((item) => item.group === group)
-              const active = items.some((item) => item.id === view)
-              return (
-                <div className="workspace-nav-group" key={group}>
-                  <button
-                    className={active ? "workspace-nav-trigger active" : "workspace-nav-trigger"}
-                    onClick={() => {
-                      setNavOpen(!navOpen || !active)
-                      setNavQuery("")
-                    }}
-                    aria-expanded={navOpen && active}
-                  >
-                    {group}
-                    <Icon name="chevron" size={14} />
-                  </button>
-                  {navOpen && active && (
-                    <div className="workspace-nav-menu">
-                      <label className="workspace-nav-search">
-                        <Icon name="search" size={15} />
-                        <input
-                          value={navQuery}
-                          onChange={(event) => setNavQuery(event.target.value)}
-                          placeholder="Find a page…"
-                          aria-label="Find a page"
-                        />
-                      </label>
-                      <div className="workspace-nav-menu-items">
-                        {filteredNavigation.filter((item) => item.group === group).map((item) => (
-                          <button
-                            key={item.id}
-                            className={item.id === view ? "active" : ""}
-                            onClick={() => go(item.id)}
-                          >
-                            <span>{item.label}</span>
-                            {item.id === view && <Icon name="check" size={15} />}
-                          </button>
-                        ))}
-                        {filteredNavigation.filter((item) => item.group === group).length === 0 && (
-                          <p className="workspace-nav-empty">No matching pages.</p>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )
-            })}
-          </div>
-          <span className="workspace-nav-current">{title}</span>
-          <button
-            className="workspace-nav-all"
-            onClick={() => {
-              setNavOpen(!navOpen)
-              setNavQuery("")
-            }}
-            aria-expanded={navOpen}
-          >
-            <Icon name="grid" size={15} />
-            All pages
-          </button>
-          {navOpen && (
-            <div className="workspace-nav-all-menu">
-              <label className="workspace-nav-search">
-                <Icon name="search" size={15} />
-                <input
-                  value={navQuery}
-                  onChange={(event) => setNavQuery(event.target.value)}
-                  placeholder="Search all pages…"
-                  aria-label="Search all pages"
-                />
-              </label>
-              {groups.map((group) => {
-                const items = filteredNavigation.filter((item) => item.group === group)
-                if (!items.length) return null
-                return (
-                  <div className="workspace-nav-all-group" key={group}>
-                    <span>{group}</span>
-                    {items.map((item) => (
-                      <button key={item.id} className={item.id === view ? "active" : ""} onClick={() => go(item.id)}>
-                        {item.label}
-                        {item.id === view && <Icon name="check" size={15} />}
-                      </button>
-                    ))}
-                  </div>
-                )
-              })}
-            </div>
-          )}
-        </nav>
         <PrototypeBanner />
-        <div className="workspace-content" onClick={() => navOpen && setNavOpen(false)}>
+        <div className="workspace-content">
           <div className="app-page-heading">
             <div>
               <span className="micro-label">Application workbench</span>
@@ -2596,19 +2525,9 @@ function AppWorkspace({
               <p>{subtitle}</p>
             </div>
             <div className="app-actions">
-              {view !== "overview" && (
-                <AppAction quiet onClick={() => go("overview")}>
-                  Overview
-                </AppAction>
-              )}
-              {view === "overview" && (
-                <AppAction quiet onClick={() => go("jobs")}>
-                  View all jobs
-                </AppAction>
-              )}
-              {view === "overview" && (
-                <AppAction onClick={() => go("new")}>New analysis</AppAction>
-              )}
+              {view !== "overview" && <AppAction quiet onClick={() => go("overview")}>Overview</AppAction>}
+              {view === "overview" && <AppAction quiet onClick={() => go("jobs")}>View all jobs</AppAction>}
+              {view === "overview" && <AppAction onClick={() => go("new")}>New analysis</AppAction>}
             </div>
           </div>
           {view === "overview" && <OverviewView go={go} />}
@@ -2624,9 +2543,7 @@ function AppWorkspace({
           {view === "jobs" && <JobsView go={go} />}
           {view === "repository" && <RepositoryView />}
           {view === "coverage" && <CoverageView />}
-          {view === "settings" && (
-            <SettingsView theme={theme} onTheme={onTheme} />
-          )}
+          {view === "settings" && <SettingsView theme={theme} onTheme={onTheme} />}
         </div>
       </div>
     </main>
