@@ -358,7 +358,7 @@ function HomePage({ onStart }: { onStart: () => void }) {
           <h1>
             A dependency changed.
             <br />
-            <em>Trace the break.</em>
+            <em>Find what actually broke.</em>
           </h1>
           <p className="hero-lede">
             Compatibility failures rarely explain themselves.
@@ -2675,9 +2675,9 @@ function StartModal({
   )
 }
 
-function LoadingScreen({ onComplete }: { onComplete: () => void }) {
+function LoadingScreen({ leaving }: { leaving: boolean }) {
   return (
-    <div className="faultline-loader" role="status" aria-live="polite" aria-label="Loading FAULTLINE">
+    <div className={`faultline-loader${leaving ? " is-leaving" : ""}`} role="status" aria-live="polite" aria-label="Loading FAULTLINE">
       <div className="loader-grain" />
       <div className="loader-content">
         <div className="loader-brand">
@@ -2709,6 +2709,7 @@ function LoadingScreen({ onComplete }: { onComplete: () => void }) {
 
 export default function App() {
   const [booting, setBooting] = useState(true)
+  const [loaderLeaving, setLoaderLeaving] = useState(false)
   const getPage = (): Page => {
     const hash = window.location.hash.replace("#", "")
     const pages: Page[] = [
@@ -2725,9 +2726,14 @@ export default function App() {
   const [modal, setModal] = useState(false)
   useEffect(() => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    const delay = reducedMotion ? 180 : 1250
-    const timer = window.setTimeout(() => setBooting(false), delay)
-    return () => window.clearTimeout(timer)
+    const leaveDelay = reducedMotion ? 80 : 1450
+    const finishDelay = reducedMotion ? 100 : 1950
+    const leaveTimer = window.setTimeout(() => setLoaderLeaving(true), leaveDelay)
+    const finishTimer = window.setTimeout(() => setBooting(false), finishDelay)
+    return () => {
+      window.clearTimeout(leaveTimer)
+      window.clearTimeout(finishTimer)
+    }
   }, [])
   const [theme, setTheme] = useState<"light" | "dark">(() => {
     const stored = localStorage.getItem("faultline-theme")
@@ -2764,7 +2770,7 @@ export default function App() {
   }
 
   if (booting) {
-    return <LoadingScreen onComplete={() => setBooting(false)} />
+    return <LoadingScreen leaving={loaderLeaving} />
   }
 
   if (page === "app") {
