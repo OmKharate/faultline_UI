@@ -1983,24 +1983,77 @@ html, body, #root { max-width: 100%; }
 }
 
 
-/* Desktop sidebar expands the layout while open, then closes after a destination is selected. */
+/* Sidebar layout uses explicit state classes: open pushes content, closed gives all width back. */
 @media (min-width: 761px) {
-  .workspace:has(> .app-sidebar.open) {
+  .workspace.sidebar-open {
+    display: grid !important;
     grid-template-columns: 238px minmax(0, 1fr) !important;
+    align-items: start;
+    min-height: 100vh;
+    width: 100%;
   }
-  .workspace:has(> .app-sidebar:not(.open)) {
+  .workspace.sidebar-closed {
+    display: grid !important;
     grid-template-columns: 0 minmax(0, 1fr) !important;
+    align-items: start;
+    min-height: 100vh;
+    width: 100%;
   }
-  .workspace > .app-sidebar {
+  .workspace.sidebar-open > .app-sidebar {
+    position: sticky !important;
+    inset: auto !important;
+    top: 0 !important;
+    width: 238px !important;
+    height: 100vh !important;
+    min-height: 100vh;
+    transform: translateX(0) !important;
+    visibility: visible !important;
+    pointer-events: auto;
+    box-shadow: none !important;
+    z-index: 10 !important;
+  }
+  .workspace.sidebar-closed > .app-sidebar {
+    position: sticky !important;
+    inset: auto !important;
+    width: 0 !important;
+    height: 100vh !important;
+    min-height: 100vh;
+    padding: 0 !important;
+    border: 0 !important;
+    overflow: hidden !important;
     transform: translateX(-105%) !important;
     visibility: hidden !important;
-    pointer-events: none;
+    pointer-events: none !important;
+    box-shadow: none !important;
+  }
+  .workspace > .app-sidebar .sidebar-close { display: inline-flex !important; }
+  .workspace .app-topbar-minimal .sidebar-toggle { display: inline-flex !important; }
+  .workspace > .sidebar-backdrop { display: none !important; }
+  .workspace .workspace-main { min-width: 0; width: 100%; max-width: 100%; }
+  .workspace .workspace-content {
+    width: 100%; max-width: 100%; min-width: 0;
+    padding-left: clamp(20px, 2.2vw, 34px);
+    padding-right: clamp(20px, 2.2vw, 34px);
+  }
+}
+@media (max-width: 760px) {
+  .workspace, .workspace.sidebar-open, .workspace.sidebar-closed { display: block !important; }
+  .workspace > .app-sidebar {
+    position: fixed !important;
+    inset: 0 auto 0 0 !important;
+    width: min(280px, 86vw) !important;
+    height: 100dvh !important;
+    padding: 22px 14px !important;
+    transform: translateX(-105%) !important;
+    visibility: hidden !important;
+    z-index: 101 !important;
   }
   .workspace > .app-sidebar.open {
     transform: translateX(0) !important;
     visibility: visible !important;
-    pointer-events: auto;
+    pointer-events: auto !important;
   }
   .workspace > .app-sidebar .sidebar-close { display: inline-flex !important; }
+  .workspace > .sidebar-backdrop { display: block !important; }
   .workspace .app-topbar-minimal .sidebar-toggle { display: inline-flex !important; }
 }
