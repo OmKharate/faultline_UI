@@ -1419,3 +1419,11 @@ small,
   }
   .loader-progress-track span { transform: scaleX(1); }
 }
+
+
+/* Theme-aware FAULTLINE mark: dark ink on light surfaces, ivory ink on dark surfaces. */
+.logo-mark-pair { display:inline-block; position:relative; flex:0 0 auto; }
+.logo-mark-pair img { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; }
+.logo-mark-pair img:nth-child(2) { display:none; }
+html[data-theme="dark"] .logo-mark-pair img:first-child { display:none; }
+html[data-theme="dark"] .logo-mark-pair img:nth-child(2) { display:block; }
