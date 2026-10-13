@@ -2725,7 +2725,7 @@ export default function App() {
   const [modal, setModal] = useState(false)
   useEffect(() => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    const delay = reducedMotion ? 180 : 1250
+    const delay = reducedMotion ? 180 : 1350
     const timer = window.setTimeout(() => setBooting(false), delay)
     return () => window.clearTimeout(timer)
   }, [])
