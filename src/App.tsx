@@ -2499,7 +2499,7 @@ function AppWorkspace({
   }
   const [title, subtitle] = viewMeta[view]
   return (
-    <main className="workspace">
+    <main className={sidebar ? "workspace sidebar-open" : "workspace sidebar-closed"}>
       {sidebar && <button className="sidebar-backdrop" aria-label="Close navigation" onClick={() => setSidebar(false)} />}
       <aside className={sidebar ? "app-sidebar open" : "app-sidebar"} aria-label="Workspace sidebar">
         <div className="sidebar-brand-row">
