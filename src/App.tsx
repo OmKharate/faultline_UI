@@ -2491,7 +2491,7 @@ function AppWorkspace({
   onTheme: () => void
 }) {
   const [view, setView] = useState<AppView>("overview")
-  const [sidebar, setSidebar] = useState(false)
+  const [sidebar, setSidebar] = useState(true)
   const go = (next: AppView) => {
     setView(next)
     setSidebar(false)
