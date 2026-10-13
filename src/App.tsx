@@ -2675,7 +2675,7 @@ function StartModal({
   )
 }
 
-function LoadingScreen({ onComplete }: { onComplete: () => void }) {
+function LoadingScreen() {
   return (
     <div className="faultline-loader" role="status" aria-live="polite" aria-label="Loading FAULTLINE">
       <div className="loader-grain" />
@@ -2764,7 +2764,7 @@ export default function App() {
   }
 
   if (booting) {
-    return <LoadingScreen onComplete={() => setBooting(false)} />
+    return <LoadingScreen />
   }
 
   if (page === "app") {
