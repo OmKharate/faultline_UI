@@ -1340,6 +1340,35 @@ function OverviewView({ go }: { go: (view: AppView) => void }) {
           </div>
         ))}
       </div>
+      <div className="overview-chart-grid">
+        <Panel title="Sample outcome mix" meta="Illustrative only">
+          <div className="overview-chart-content">
+            <div className="outcome-donut" role="img" aria-label="Illustrative sample: one inconclusive record and one partial record, equal proportions">
+              <div className="outcome-donut-center"><strong>2</strong><span>sample records</span></div>
+            </div>
+            <div className="chart-legend">
+              <div><span className="chart-dot inconclusive" /><span>Inconclusive</span><strong>1</strong></div>
+              <div><span className="chart-dot partial" /><span>Partial</span><strong>1</strong></div>
+              <small>Based on the two example records shown below, not live analysis data.</small>
+            </div>
+          </div>
+        </Panel>
+        <Panel title="Sample investigations by stage" meta="Illustrative only">
+          <div className="stage-chart" role="img" aria-label="Illustrative sample: one investigation at witness evaluation and one at world construction">
+            <div className="stage-chart-row">
+              <span>Witness evaluation</span>
+              <div className="stage-chart-track"><i style={{ width: "100%" }} /></div>
+              <strong>1</strong>
+            </div>
+            <div className="stage-chart-row">
+              <span>World construction</span>
+              <div className="stage-chart-track"><i style={{ width: "100%" }} /></div>
+              <strong>1</strong>
+            </div>
+            <p>Distribution of the two example records only. Real stage counts are unavailable until connected to persisted data.</p>
+          </div>
+        </Panel>
+      </div>
       <div className="work-grid two-one">
         <Panel title="Analysis funnel" meta="Persisted stages">
           <div className="funnel">
@@ -1404,7 +1433,6 @@ function OverviewView({ go }: { go: (view: AppView) => void }) {
     </>
   )
 }
-
 function NewAnalysisView({ go }: { go: (view: AppView) => void }) {
   const [step, setStep] = useState(1)
   return (
