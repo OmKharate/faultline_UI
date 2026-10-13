@@ -2726,8 +2726,8 @@ export default function App() {
   const [modal, setModal] = useState(false)
   useEffect(() => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    const leaveDelay = reducedMotion ? 80 : 1450
-    const finishDelay = reducedMotion ? 100 : 1950
+    const leaveDelay = reducedMotion ? 80 : 1100
+    const finishDelay = reducedMotion ? 100 : 1550
     const leaveTimer = window.setTimeout(() => setLoaderLeaving(true), leaveDelay)
     const finishTimer = window.setTimeout(() => setBooting(false), finishDelay)
     return () => {
