@@ -61,7 +61,11 @@ function Icon({
   )
 }
 
-function LogoMark({ className = "" }: { className?: string }) {\n  return <span className={`logo-mark-pair ${className}`}><img src="/faultline-logo.svg" alt="" /><img src="/faultline-logo-dark.svg" alt="" /></span>\n}\n\nfunction Logo({ compact = false }: { compact?: boolean }) {
+function LogoMark({ className = "" }: { className?: string }) {
+  return <span className={`logo-mark-pair ${className}`}><img src="/faultline-logo.svg" alt="" /><img src="/faultline-logo-dark.svg" alt="" /></span>
+}
+
+function Logo({ compact = false }: { compact?: boolean }) {
   return (
     <span className="logo-lockup">
       <LogoMark className="logo-mark" />
