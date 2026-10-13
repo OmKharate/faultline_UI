@@ -2727,6 +2727,38 @@ export default function App() {
   }, [])
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+    const root = document.querySelector(".app")
+    if (!root) return
+    const targets = root.querySelectorAll(
+      ".hero-copy, .investigation-visual, .value-strip > div, .section-intro, .numbered-row, .wide-heading, .workflow-grid > *, .comparison, .product-section > *, .transparency > *, .principle, .final-cta .page-shell > *, .subpage-hero > *, .process-overview > div, .detail-step, .docs-hero, .docs-layout > *, .capability-card, .site-footer > *"
+    )
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible")
+          observer.unobserve(entry.target)
+        }
+      })
+    }, { threshold: 0.08, rootMargin: "0px 0px -32px 0px" })
+    targets.forEach((target, index) => {
+      target.setAttribute("data-motion", target.matches(".investigation-visual, .final-cta .page-shell > *:first-child") ? "scale" : index % 7 === 3 ? "from-right" : "rise")
+      target.style.setProperty("--motion-delay", `${(index % 4) * 70}ms`)
+      observer.observe(target)
+    })
+    root.classList.add("motion-enabled")
+    return () => {
+      observer.disconnect()
+      root.classList.remove("motion-enabled")
+      targets.forEach((target) => {
+        target.removeAttribute("data-motion")
+        target.classList.remove("is-visible")
+        target.removeAttribute("style")
+      })
+    }
+  }, [page])
+
+  useEffect(() => {
     document.documentElement.dataset.theme = theme
     localStorage.setItem("faultline-theme", theme)
   }, [theme])
