@@ -1354,11 +1354,11 @@ html[data-theme="dark"] .logo-mark-pair img:first-child { display:none; }
 html[data-theme="dark"] .logo-mark-pair img:nth-child(2) { display:block; }
 
 
-/* Fine typography calibration: retain the readable scale, reduce it just a touch. */
-.workspace-content { font-size: 16px; }
-.workspace-content .app-page-heading h1 { font-size: 42px !important; }
-.workspace-content .app-page-heading p { font-size: 16px !important; }
-.workspace-content .app-sidebar nav button { font-size: 16px !important; }
+/* Refined workbench type scale: compact, readable, and consistent with the editorial UI. */
+.workspace-content { font-size: 13px; }
+.workspace-content .app-page-heading h1 { font-size: 34px !important; line-height: 1.18 !important; }
+.workspace-content .app-page-heading p { font-size: 13px !important; line-height: 1.55 !important; }
+.workspace-content .app-sidebar nav button { font-size: 12px !important; }
 .workspace-content .metric-strip span,
 .workspace-content .funnel button small,
 .workspace-content .attention-list p,
@@ -1372,24 +1372,53 @@ html[data-theme="dark"] .logo-mark-pair img:nth-child(2) { display:block; }
 .workspace-content .key-values dd,
 .workspace-content .manifest-grid dd,
 .workspace-content .pipeline summary strong,
-.workspace-content .setting-row strong { font-size: 15px !important; }
-.workspace-content .panel-heading h3 { font-size: 19px !important; }
+.workspace-content .setting-row strong { font-size: 12px !important; }
+.workspace-content .panel-heading h3 { font-size: 16px !important; }
 .workspace-content .funnel button strong,
 .workspace-content .attention-list strong,
-.workspace-content .witness-rule strong { font-size: 16px !important; }
+.workspace-content .witness-rule strong { font-size: 13px !important; }
 .workspace-content .app-action,
 .workspace-content .stepper button,
 .workspace-content .filter-bar button,
 .workspace-content .app-tabs button,
 .workspace-content .theme-choice,
-.workspace-content .exit-app { font-size: 16px !important; }
+.workspace-content .exit-app { font-size: 12px !important; }
 .workspace-content .app-status,
 .workspace-content .data-table th,
 .workspace-content .app-form label span,
 .workspace-content .panel-heading span,
-.workspace-content .sidebar-foot small { font-size: 13px !important; }
+.workspace-content .sidebar-foot small { font-size: 10px !important; }
 
-
+/* Overview charts are explicitly sample-only until persisted metrics are connected. */
+.overview-chart-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin:0 0 18px; }
+.overview-chart-content { display:flex; align-items:center; gap:26px; min-height:176px; padding:18px 20px; }
+.outcome-donut { position:relative; display:grid; place-items:center; width:132px; height:132px; flex:0 0 132px; border-radius:50%; background:conic-gradient(#bd684e 0 50%, #8e9a87 50% 100%); }
+.outcome-donut::after { content:""; position:absolute; inset:15px; border-radius:50%; background:var(--work-surface); }
+.outcome-donut-center { position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; gap:3px; }
+.outcome-donut-center strong { font-family:var(--font-interface); font-size:24px; font-weight:500; color:var(--work-text); }
+.outcome-donut-center span { font-size:9px !important; color:var(--work-muted); white-space:nowrap; }
+.chart-legend { display:flex; flex-direction:column; gap:12px; flex:1; min-width:0; }
+.chart-legend > div { display:grid; grid-template-columns:10px minmax(0,1fr) auto; align-items:center; gap:8px; color:var(--work-muted); font-size:11px !important; }
+.chart-legend > div strong { color:var(--work-text); font-size:12px !important; font-weight:500; }
+.chart-dot { width:8px; height:8px; border-radius:50%; }
+.chart-dot.inconclusive { background:#bd684e; }
+.chart-dot.partial { background:#8e9a87; }
+.chart-legend > small { margin-top:3px; color:var(--work-muted); font-size:10px !important; line-height:1.5; }
+.stage-chart { display:flex; flex-direction:column; gap:19px; padding:23px 20px 18px; min-height:176px; }
+.stage-chart-row { display:grid; grid-template-columns:minmax(115px, .9fr) minmax(40px,1fr) 16px; gap:12px; align-items:center; }
+.stage-chart-row > span { color:var(--work-muted); font-size:11px !important; }
+.stage-chart-row > strong { color:var(--work-text); font-size:12px !important; font-weight:500; text-align:right; }
+.stage-chart-track { height:7px; background:var(--work-surface-2); overflow:hidden; }
+.stage-chart-track i { display:block; height:100%; background:#bd684e; }
+.stage-chart p { margin:auto 0 0; color:var(--work-muted); font-size:10px !important; line-height:1.5; }
+@media (max-width: 900px) {
+ .overview-chart-grid { grid-template-columns:1fr; }
+}
+@media (max-width: 520px) {
+ .overview-chart-content { gap:17px; padding:16px 14px; }
+ .outcome-donut { width:112px; height:112px; flex-basis:112px; }
+ .stage-chart-row { grid-template-columns:minmax(105px,.9fr) minmax(35px,1fr) 14px; gap:8px; }
+}
 /* Dependency graph page */
 .dependency-page { display:flex; flex-direction:column; gap:18px; min-width:0; }
 .dependency-toolbar { display:flex; align-items:center; justify-content:space-between; gap:14px; }
