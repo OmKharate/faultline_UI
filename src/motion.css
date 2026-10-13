@@ -31,15 +31,23 @@
 }
 
 .site-header { animation: fl-enter-up 560ms var(--motion-ease) both; }
-.hero-copy > .eyebrow { animation: fl-enter-up 560ms 70ms var(--motion-ease) both; }
+.hero-copy > .hero-kicker { animation: fl-enter-up 560ms 70ms var(--motion-ease) both; }
 .hero-copy > h1 { animation: fl-enter-up 700ms 130ms var(--motion-ease) both; }
-.hero-copy > p:not(.eyebrow) { animation: fl-enter-up 650ms 210ms var(--motion-ease) both; }
-.hero-copy .button-row { animation: fl-enter-up 650ms 290ms var(--motion-ease) both; }
-.hero-copy .trust-line { animation: fl-enter-up 650ms 360ms var(--motion-ease) both; }
-.investigation-visual { animation: fl-enter-side 850ms 180ms var(--motion-ease) both; }
+.hero-copy > .hero-lede { animation: fl-enter-up 650ms 210ms var(--motion-ease) both; }
+.hero-copy > .hero-description { animation: fl-enter-up 650ms 260ms var(--motion-ease) both; }
+.hero-copy .button-row { animation: fl-enter-up 650ms 320ms var(--motion-ease) both; }
+.hero-copy .hero-proofline { animation: fl-enter-up 650ms 380ms var(--motion-ease) both; }
+.hero-copy .hero-meta { animation: fl-enter-up 650ms 440ms var(--motion-ease) both; }
+.hero-visual-wrap { animation: fl-enter-side 850ms 180ms var(--motion-ease) both; }
+.hero-visual-index { animation: fl-enter-up 550ms 360ms var(--motion-ease) both; }
+.hero-visual-caption { animation: fl-enter-up 550ms 760ms var(--motion-ease) both; }
 .investigation-visual::before { transform-origin: center; animation: fl-line-draw 900ms 550ms var(--motion-ease) both; }
-.connector-line { transform-origin: left center; animation: fl-line-draw 850ms 700ms var(--motion-ease) both; }
-.mode-badge { animation: fl-soft-pulse 3.8s 1.2s ease-in-out infinite; }
+.edge-line { transform-origin: left center; animation: fl-line-draw 850ms 700ms var(--motion-ease) both; }
+.visual-live-indicator { animation: fl-soft-pulse 3.8s 1.2s ease-in-out infinite; }
+.visual-evidence-row { animation: fl-enter-up 500ms var(--motion-ease) both; }
+.visual-evidence-row:nth-child(1) { animation-delay: 620ms; }
+.visual-evidence-row:nth-child(2) { animation-delay: 720ms; }
+.visual-evidence-row:nth-child(3) { animation-delay: 820ms; }
 
 /* Precise feedback: responsive without feeling springy or playful. */
 a, button, input, .repo-card, .comparison article, .doc-card, .state-grid article,
@@ -110,5 +118,31 @@ a, button, input, .repo-card, .comparison article, .doc-card, .state-grid articl
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: .01ms !important;
+  }
+}
+
+
+@keyframes loader-content-in {
+  from { opacity: 0; transform: translate3d(0, 12px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes loader-orbit { to { transform: rotate(360deg); } }
+@keyframes loader-orbit-reverse { to { transform: rotate(-360deg); } }
+@keyframes loader-signal {
+  0%, 100% { opacity: .3; transform: scale(.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+@keyframes loader-progress { to { transform: scaleX(1); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-copy > *,
+  .hero-visual-wrap,
+  .hero-visual-index,
+  .hero-visual-caption,
+  .visual-evidence-row,
+  .investigation-visual::before,
+  .edge-line,
+  .visual-live-indicator {
+    animation: none !important;
   }
 }
