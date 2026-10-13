@@ -1427,3 +1427,39 @@ small,
 .logo-mark-pair img:nth-child(2) { display:none; }
 html[data-theme="dark"] .logo-mark-pair img:first-child { display:none; }
 html[data-theme="dark"] .logo-mark-pair img:nth-child(2) { display:block; }
+
+
+/* Fine typography calibration: retain the readable scale, reduce it just a touch. */
+.workspace-content { font-size: 16px; }
+.workspace-content .app-page-heading h1 { font-size: 42px !important; }
+.workspace-content .app-page-heading p { font-size: 16px !important; }
+.workspace-content .app-sidebar nav button { font-size: 16px !important; }
+.workspace-content .metric-strip span,
+.workspace-content .funnel button small,
+.workspace-content .attention-list p,
+.workspace-content .panel-note,
+.workspace-content .data-table td,
+.workspace-content .app-form p,
+.workspace-content .empty-inline p,
+.workspace-content .verdict-summary p,
+.workspace-content .finding-summary-grid p,
+.workspace-content .evidence-row,
+.workspace-content .key-values dd,
+.workspace-content .manifest-grid dd,
+.workspace-content .pipeline summary strong,
+.workspace-content .setting-row strong { font-size: 15px !important; }
+.workspace-content .panel-heading h3 { font-size: 19px !important; }
+.workspace-content .funnel button strong,
+.workspace-content .attention-list strong,
+.workspace-content .witness-rule strong { font-size: 16px !important; }
+.workspace-content .app-action,
+.workspace-content .stepper button,
+.workspace-content .filter-bar button,
+.workspace-content .app-tabs button,
+.workspace-content .theme-choice,
+.workspace-content .exit-app { font-size: 16px !important; }
+.workspace-content .app-status,
+.workspace-content .data-table th,
+.workspace-content .app-form label span,
+.workspace-content .panel-heading span,
+.workspace-content .sidebar-foot small { font-size: 13px !important; }
