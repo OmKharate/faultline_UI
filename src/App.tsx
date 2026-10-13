@@ -2506,7 +2506,6 @@ function AppWorkspace({
           <button className="app-brand" onClick={() => { setSidebar(false); navigate("home") }} aria-label="FAULTLINE home">
             <Logo />
           </button>
-          <button className="sidebar-close" onClick={() => setSidebar(false)} aria-label="Close navigation"><Icon name="close" size={18} /></button>
         </div>
         <nav aria-label="Application navigation">
           <span>Workbench</span>
