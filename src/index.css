@@ -1106,7 +1106,7 @@ small,
   transform: scaleX(0);
   transform-origin: left;
   background: #c8755b;
-  animation: loader-progress 1.48s cubic-bezier(.65, 0, .35, 1) forwards;
+  animation: loader-progress 1.08s cubic-bezier(.65, 0, .35, 1) forwards;
 }
 .loader-corner {
   position: absolute;
