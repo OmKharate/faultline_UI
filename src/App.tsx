@@ -1152,19 +1152,19 @@ function DocsPage() {
   )
 }
 
-const appNavigation: { id: AppView label: string group?: boolean }[] = [
-  { id: "overview", label: "Overview" },
-  { id: "new", label: "New analysis" },
-  { id: "findings", label: "Findings" },
-  { id: "relationships", label: "Relationships" },
-  { id: "inventory", label: "Inventory graph" },
-  { id: "evidence", label: "Evidence" },
-  { id: "jobs", label: "Jobs" },
-  { id: "repository", label: "Repositories" },
-  { id: "coverage", label: "Capabilities" },
-  { id: "settings", label: "Settings" },
+const appNavigation: { id: AppView; label: string; group: "Investigate" | "Explore" | "Manage" }[] = [
+  { id: "overview", label: "Overview", group: "Investigate" },
+  { id: "new", label: "New analysis", group: "Investigate" },
+  { id: "findings", label: "Findings", group: "Investigate" },
+  { id: "worlds", label: "World matrix", group: "Investigate" },
+  { id: "relationships", label: "Relationships", group: "Explore" },
+  { id: "inventory", label: "Inventory graph", group: "Explore" },
+  { id: "evidence", label: "Evidence", group: "Explore" },
+  { id: "jobs", label: "Jobs", group: "Manage" },
+  { id: "repository", label: "Repositories", group: "Manage" },
+  { id: "coverage", label: "Capabilities", group: "Manage" },
+  { id: "settings", label: "Settings", group: "Manage" },
 ]
-
 function Status({
   children,
   tone = "neutral",
@@ -2463,48 +2463,30 @@ function AppWorkspace({
   onTheme: () => void
 }) {
   const [view, setView] = useState<AppView>("overview")
-  const [sidebar, setSidebar] = useState(false)
+  const [navOpen, setNavOpen] = useState(false)
+  const [navQuery, setNavQuery] = useState("")
   const go = (next: AppView) => {
     setView(next)
-    setSidebar(false)
+    setNavOpen(false)
+    setNavQuery("")
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
   const [title, subtitle] = viewMeta[view]
+  const groups = ["Investigate", "Explore", "Manage"] as const
+  const filteredNavigation = appNavigation.filter((item) =>
+    item.label.toLowerCase().includes(navQuery.toLowerCase()) ||
+    item.group.toLowerCase().includes(navQuery.toLowerCase())
+  )
   return (
     <main className="workspace">
-      <aside className={sidebar ? "app-sidebar open" : "app-sidebar"}>
-        <button className="app-brand" onClick={() => navigate("home")}>
-          <Logo />
-        </button>
-        <nav aria-label="Application navigation">
-          <span>Workbench</span>
-          {appNavigation.map((item) => (
-            <button
-              className={view === item.id ? "active" : ""}
-              onClick={() => go(item.id)}
-              key={item.id}
-            >
-              <Icon name="grid" size={15} />
-              {item.label}
-            </button>
-          ))}
-        </nav>
-        <div className="sidebar-foot">
-          <Status>FIXTURE</Status>
-          <small>No live account session</small>
-        </div>
-      </aside>
       <div className="workspace-main">
         <header className="app-topbar">
-          <button
-            className="sidebar-toggle"
-            onClick={() => setSidebar(!sidebar)}
-            aria-label="Toggle application navigation"
-          >
-            <Icon name="menu" />
+          <button className="app-brand" onClick={() => navigate("home")} aria-label="FAULTLINE home">
+            <Logo />
           </button>
-          <div>
-            <span>FAULTLINE / {title}</span>
+          <div className="topbar-context">
+            <span className="micro-label">Workbench</span>
+            <span className="topbar-page-title">{title}</span>
           </div>
           <div className="topbar-actions">
             <Status>FIXTURE</Status>
@@ -2514,8 +2496,99 @@ function AppWorkspace({
             </button>
           </div>
         </header>
+        <nav className="workspace-nav" aria-label="Application navigation">
+          <div className="workspace-nav-groups">
+            {groups.map((group) => {
+              const items = appNavigation.filter((item) => item.group === group)
+              const active = items.some((item) => item.id === view)
+              return (
+                <div className="workspace-nav-group" key={group}>
+                  <button
+                    className={active ? "workspace-nav-trigger active" : "workspace-nav-trigger"}
+                    onClick={() => {
+                      setNavOpen(!navOpen || !active)
+                      setNavQuery("")
+                    }}
+                    aria-expanded={navOpen && active}
+                  >
+                    {group}
+                    <Icon name="chevron" size={14} />
+                  </button>
+                  {navOpen && active && (
+                    <div className="workspace-nav-menu">
+                      <label className="workspace-nav-search">
+                        <Icon name="search" size={15} />
+                        <input
+                          value={navQuery}
+                          onChange={(event) => setNavQuery(event.target.value)}
+                          placeholder="Find a page…"
+                          aria-label="Find a page"
+                        />
+                      </label>
+                      <div className="workspace-nav-menu-items">
+                        {filteredNavigation.filter((item) => item.group === group).map((item) => (
+                          <button
+                            key={item.id}
+                            className={item.id === view ? "active" : ""}
+                            onClick={() => go(item.id)}
+                          >
+                            <span>{item.label}</span>
+                            {item.id === view && <Icon name="check" size={15} />}
+                          </button>
+                        ))}
+                        {filteredNavigation.filter((item) => item.group === group).length === 0 && (
+                          <p className="workspace-nav-empty">No matching pages.</p>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+          <span className="workspace-nav-current">{title}</span>
+          <button
+            className="workspace-nav-all"
+            onClick={() => {
+              setNavOpen(!navOpen)
+              setNavQuery("")
+            }}
+            aria-expanded={navOpen}
+          >
+            <Icon name="grid" size={15} />
+            All pages
+          </button>
+          {navOpen && (
+            <div className="workspace-nav-all-menu">
+              <label className="workspace-nav-search">
+                <Icon name="search" size={15} />
+                <input
+                  value={navQuery}
+                  onChange={(event) => setNavQuery(event.target.value)}
+                  placeholder="Search all pages…"
+                  aria-label="Search all pages"
+                />
+              </label>
+              {groups.map((group) => {
+                const items = filteredNavigation.filter((item) => item.group === group)
+                if (!items.length) return null
+                return (
+                  <div className="workspace-nav-all-group" key={group}>
+                    <span>{group}</span>
+                    {items.map((item) => (
+                      <button key={item.id} className={item.id === view ? "active" : ""} onClick={() => go(item.id)}>
+                        {item.label}
+                        {item.id === view && <Icon name="check" size={15} />}
+                      </button>
+                    ))}
+                  </div>
+                )
+              })}
+            </div>
+          )}
+        </nav>
         <PrototypeBanner />
-        <div className="workspace-content">
+        <div className="workspace-content" onClick={() => navOpen && setNavOpen(false)}>
           <div className="app-page-heading">
             <div>
               <span className="micro-label">Application workbench</span>
@@ -2682,31 +2755,14 @@ function StartModal({
 function LoadingScreen({ leaving }: { leaving: boolean }) {
   return (
     <div className={`faultline-loader${leaving ? " is-leaving" : ""}`} role="status" aria-live="polite" aria-label="Loading FAULTLINE">
-      <div className="loader-grain" />
       <div className="loader-content">
         <div className="loader-brand">
           <img src="/faultline-logo.svg" alt="" />
           <span>FAULTLINE</span>
         </div>
-        <div className="loader-centerpiece" aria-hidden="true">
-          <div className="loader-orbit orbit-one" />
-          <div className="loader-orbit orbit-two" />
-          <div className="loader-core"><img src="/faultline-logo.svg" alt="" /></div>
-          <span className="loader-node node-one" />
-          <span className="loader-node node-two" />
-          <span className="loader-node node-three" />
-        </div>
-        <p className="loader-eyebrow">CROSS-REPOSITORY INTELLIGENCE</p>
-        <h1>Follow the evidence.<br /><em>Find the fault line.</em></h1>
-        <div className="loader-bottom">
-          <span>INITIALIZING INTERFACE</span>
-          <span className="loader-sequence"><i /><i /><i /></span>
-          <span>PS / 07</span>
-        </div>
-        <div className="loader-progress-track"><span /></div>
+        <div className="loader-line" aria-hidden="true"><span /></div>
+        <p className="loader-message">Preparing your workspace</p>
       </div>
-      <span className="loader-corner loader-corner-left">FAULTLINE SYSTEMS<br />EVIDENCE-FIRST ANALYSIS</span>
-      <span className="loader-corner loader-corner-right">BUILD 01<br />PREVIEW ENVIRONMENT</span>
     </div>
   )
 }
@@ -2730,8 +2786,8 @@ export default function App() {
   const [modal, setModal] = useState(false)
   useEffect(() => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    const leaveDelay = reducedMotion ? 80 : 1100
-    const finishDelay = reducedMotion ? 100 : 1550
+    const leaveDelay = reducedMotion ? 50 : 520
+    const finishDelay = reducedMotion ? 80 : 800
     const leaveTimer = window.setTimeout(() => setLoaderLeaving(true), leaveDelay)
     const finishTimer = window.setTimeout(() => setBooting(false), finishDelay)
     return () => {
